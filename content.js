@@ -1,18 +1,21 @@
 console.log("Content script is loaded!");
 let isCommandPressed = false;
 
-// Check if the window is still valid before sending a message
-const sendCommandPressMessage = (type) => {
-  if (document.readyState === "complete") {
-    chrome.runtime.sendMessage({ type: type });
-  }
-};
+function sendMessage(messageContent) {
+  chrome.runtime.sendMessage(
+    { action: messageContent }, // The message body, with the action containing your passed message
+    function(response) {
+      console.log("Response from background:", response);
+    }
+  );
+}
+
 
 window.addEventListener("keydown", (e) => {
   if (e.key === "Meta" || e.key === "Control") {
     console.log("Command or Ctrl key pressed!");
     isCommandPressed = true;
-    sendCommandPressMessage("command-press"); // Send message to background script
+    sendMessage("command-press"); // Send message to background script
     showCloseButton(); // Show the close button when Command key is pressed
   }
 });
@@ -21,7 +24,7 @@ window.addEventListener("keyup", (e) => {
   if (e.key === "Meta" || e.key === "Control") {
     console.log("Command or Ctrl key released!");
     isCommandPressed = false;
-    sendCommandPressMessage("command-release"); // Send message to background script
+    sendMessage("command-release"); // Send message to background script
     hideCloseButton(); // Hide the close button when Command key is released
   }
 });

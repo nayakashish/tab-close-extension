@@ -13,6 +13,8 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
     isCommandPressed = false;
     sendResponse({ success: true });
   }
+
+  return true;
 });
 
 // Log when the extension is installed and running
