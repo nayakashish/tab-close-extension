@@ -1,0 +1,5 @@
+.tab-close-button {
+    visibility: hidden; /* Hide by default */
+    transition: visibility 0.2s ease-in-out;
+  }
+  
